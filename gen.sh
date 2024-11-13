@@ -18,8 +18,6 @@ echo "generate swagger documentation"
 
 cd ../../..
 ls
-sh ./gen_swagger_v2.sh
-sh ./gen_swagger_v3.sh
-
+sh ./gen_swagger.sh
 
 echo "successfully"

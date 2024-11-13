@@ -1,0 +1,11 @@
+version: v1
+
+name: buf.build/r-pine/pools_contracts
+
+lint:
+  use:
+    - DEFAULT
+
+breaking:
+  use:
+    - FILE

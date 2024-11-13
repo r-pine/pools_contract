@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - name: go
+    out: gen
+    opt: paths=source_relative
+
+  - name: openapiv2
+    out: gen/openapi/v2
+    opt: allow_repeated_fields_in_body=true
