@@ -9,8 +9,8 @@ echo $PROTO_DIR
 for dir in $PROTO_DIR/gen/proto/*/; do \
   echo $dir && \
   cd $dir && \
-  go mod init "github.com/r-pine/rpine-gateway-contracts/gen/proto/$(basename "$dir")" && \
-  GOPRIVATE=github.com/r-pine/rpine-gateway-contracts go mod tidy; \
+  go mod init "github.com/r-pine/pools_contracts/gen/proto/$(basename "$dir")" && \
+  GOPRIVATE=github.com/r-pine/pools_contracts go mod tidy; \
 done
 
 echo "successfully"

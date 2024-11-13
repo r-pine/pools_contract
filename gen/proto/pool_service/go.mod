@@ -1,4 +1,4 @@
-module github.com/r-pine/rpine-gateway-contracts/gen/proto/pool_service
+module github.com/r-pine/pools_contracts/gen/proto/pool_service
 
 go 1.23.2
 

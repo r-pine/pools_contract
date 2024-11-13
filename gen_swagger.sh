@@ -8,4 +8,6 @@ echo "generate swagger specification in >> gen/openapi/v2/pools.swagger.json"
 
 rm -rf gen/openapi/v2/proto
 
+mkdir gen/openapi/v3
+
 python3 gen_swagger_v3.py
