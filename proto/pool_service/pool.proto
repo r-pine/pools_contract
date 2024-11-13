@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "proto/google/api/annotations.proto";
+
+package pool_service;
+
+option go_package = "github.com/r-pine/pools_contracts/gen/proto/pool_service;pool_service";
+
+service UserService {
+    rpc GetPools(Empty) returns (GetPoolsResponse) {
+        option (google.api.http) = {
+            get: "/v1/pools"
+        };
+    }
+}
+
+message Empty {}
+
+message GetPoolsResponse{
+  Pool pools = 1;
+}
+
+message Pool{
+    
+}
