@@ -16,9 +16,9 @@ service UserService {
 message Empty {}
 
 message GetPoolsResponse{
-  Pool pools = 1;
+    Pool pools = 1;
 }
 
 message Pool{
-    
+    string address = 1;
 }
