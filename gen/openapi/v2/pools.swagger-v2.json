@@ -107,5 +107,106 @@
         }
       }
     }
-  }
+  },
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "pool_serviceAsset": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "decimals": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "pool_serviceGetPoolsResponse": {
+        "type": "object",
+        "properties": {
+          "pools": {
+            "$ref": "#/components/schemas/pool_servicePool"
+          }
+        }
+      },
+      "pool_servicePool": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "string"
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pool_serviceAsset"
+            }
+          },
+          "lastPrice": {
+            "type": "string"
+          },
+          "reserve0": {
+            "type": "string"
+          },
+          "reserve1": {
+            "type": "string"
+          }
+        }
+      },
+      "protobufAny": {
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {
+          "type": "object"
+        }
+      },
+      "rpcStatus": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-original-swagger-version": "2.0"
 }
