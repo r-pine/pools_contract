@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_GetPools_FullMethodName = "/pool_service.UserService/GetPools"
+	PoolService_GetPools_FullMethodName = "/pool_service.PoolService/GetPools"
 )
 
-// UserServiceClient is the client API for UserService service.
+// PoolServiceClient is the client API for PoolService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserServiceClient interface {
+type PoolServiceClient interface {
 	GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error)
 }
 
-type userServiceClient struct {
+type poolServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
-	return &userServiceClient{cc}
+func NewPoolServiceClient(cc grpc.ClientConnInterface) PoolServiceClient {
+	return &poolServiceClient{cc}
 }
 
-func (c *userServiceClient) GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error) {
+func (c *poolServiceClient) GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetPoolsResponse)
-	err := c.cc.Invoke(ctx, UserService_GetPools_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PoolService_GetPools_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UserServiceServer is the server API for UserService service.
-// All implementations must embed UnimplementedUserServiceServer
+// PoolServiceServer is the server API for PoolService service.
+// All implementations must embed UnimplementedPoolServiceServer
 // for forward compatibility.
-type UserServiceServer interface {
+type PoolServiceServer interface {
 	GetPools(context.Context, *Empty) (*GetPoolsResponse, error)
-	mustEmbedUnimplementedUserServiceServer()
+	mustEmbedUnimplementedPoolServiceServer()
 }
 
-// UnimplementedUserServiceServer must be embedded to have
+// UnimplementedPoolServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedUserServiceServer struct{}
+type UnimplementedPoolServiceServer struct{}
 
-func (UnimplementedUserServiceServer) GetPools(context.Context, *Empty) (*GetPoolsResponse, error) {
+func (UnimplementedPoolServiceServer) GetPools(context.Context, *Empty) (*GetPoolsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPools not implemented")
 }
-func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
-func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
+func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
+func (UnimplementedPoolServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserServiceServer will
+// UnsafePoolServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PoolServiceServer will
 // result in compilation errors.
-type UnsafeUserServiceServer interface {
-	mustEmbedUnimplementedUserServiceServer()
+type UnsafePoolServiceServer interface {
+	mustEmbedUnimplementedPoolServiceServer()
 }
 
-func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
-	// If the following call pancis, it indicates UnimplementedUserServiceServer was
+func RegisterPoolServiceServer(s grpc.ServiceRegistrar, srv PoolServiceServer) {
+	// If the following call pancis, it indicates UnimplementedPoolServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&UserService_ServiceDesc, srv)
+	s.RegisterService(&PoolService_ServiceDesc, srv)
 }
 
-func _UserService_GetPools_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PoolService_GetPools_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).GetPools(ctx, in)
+		return srv.(PoolServiceServer).GetPools(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_GetPools_FullMethodName,
+		FullMethod: PoolService_GetPools_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetPools(ctx, req.(*Empty))
+		return srv.(PoolServiceServer).GetPools(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
+// PoolService_ServiceDesc is the grpc.ServiceDesc for PoolService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var UserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pool_service.UserService",
-	HandlerType: (*UserServiceServer)(nil),
+var PoolService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pool_service.PoolService",
+	HandlerType: (*PoolServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetPools",
-			Handler:    _UserService_GetPools_Handler,
+			Handler:    _PoolService_GetPools_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
