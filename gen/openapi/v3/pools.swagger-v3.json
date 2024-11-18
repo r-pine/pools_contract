@@ -11,7 +11,7 @@
     ],
     "tags": [
         {
-            "name": "UserService"
+            "name": "PoolService"
         }
     ],
     "paths": {},
@@ -45,7 +45,10 @@
                 "type": "object",
                 "properties": {
                     "pools": {
-                        "$ref": "#/components/schemas/pool_servicePool"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/pool_servicePool"
+                        }
                     }
                 }
             },
@@ -66,9 +69,6 @@
                         "items": {
                             "$ref": "#/components/schemas/pool_serviceAsset"
                         }
-                    },
-                    "lastPrice": {
-                        "type": "string"
                     },
                     "reserve0": {
                         "type": "string"
