@@ -45,7 +45,11 @@
       "type": "object",
       "properties": {
         "pools": {
-          "$ref": "#/definitions/pool_servicePool"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pool_servicePool"
+          }
         }
       }
     },
