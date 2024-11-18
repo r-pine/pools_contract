@@ -72,9 +72,6 @@
             "$ref": "#/definitions/pool_serviceAsset"
           }
         },
-        "lastPrice": {
-          "type": "string"
-        },
         "reserve0": {
           "type": "string"
         },

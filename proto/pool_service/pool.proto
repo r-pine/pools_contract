@@ -19,7 +19,6 @@ message Pool{
     string type = 2;
     string fee = 3;
     repeated Asset assets = 4;
-    string last_price = 5;
     string reserve0 = 6;
     string reserve1 = 7;
 }
