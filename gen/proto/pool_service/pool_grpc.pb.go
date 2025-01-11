@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PoolService_GetPools_FullMethodName = "/pool_service.PoolService/GetPools"
+	PoolService_GetPools_FullMethodName    = "/pool_service.PoolService/GetPools"
+	PoolService_StreamPools_FullMethodName = "/pool_service.PoolService/StreamPools"
 )
 
 // PoolServiceClient is the client API for PoolService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PoolServiceClient interface {
 	GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error)
+	StreamPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Pool], error)
 }
 
 type poolServiceClient struct {
@@ -47,11 +49,31 @@ func (c *poolServiceClient) GetPools(ctx context.Context, in *Empty, opts ...grp
 	return out, nil
 }
 
+func (c *poolServiceClient) StreamPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Pool], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PoolService_ServiceDesc.Streams[0], PoolService_StreamPools_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Empty, Pool]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PoolService_StreamPoolsClient = grpc.ServerStreamingClient[Pool]
+
 // PoolServiceServer is the server API for PoolService service.
 // All implementations must embed UnimplementedPoolServiceServer
 // for forward compatibility.
 type PoolServiceServer interface {
 	GetPools(context.Context, *Empty) (*GetPoolsResponse, error)
+	StreamPools(*Empty, grpc.ServerStreamingServer[Pool]) error
 	mustEmbedUnimplementedPoolServiceServer()
 }
 
@@ -64,6 +86,9 @@ type UnimplementedPoolServiceServer struct{}
 
 func (UnimplementedPoolServiceServer) GetPools(context.Context, *Empty) (*GetPoolsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPools not implemented")
+}
+func (UnimplementedPoolServiceServer) StreamPools(*Empty, grpc.ServerStreamingServer[Pool]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamPools not implemented")
 }
 func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
 func (UnimplementedPoolServiceServer) testEmbeddedByValue()                     {}
@@ -104,6 +129,17 @@ func _PoolService_GetPools_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PoolService_StreamPools_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PoolServiceServer).StreamPools(m, &grpc.GenericServerStream[Empty, Pool]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PoolService_StreamPoolsServer = grpc.ServerStreamingServer[Pool]
+
 // PoolService_ServiceDesc is the grpc.ServiceDesc for PoolService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -116,6 +152,12 @@ var PoolService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PoolService_GetPools_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamPools",
+			Handler:       _PoolService_StreamPools_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "proto/pool_service/pool.proto",
 }

@@ -6,6 +6,7 @@ option go_package = "github.com/r-pine/pools_contracts/gen/proto/pool_service;po
 
 service PoolService {
     rpc GetPools(Empty) returns (GetPoolsResponse) {}
+    rpc StreamPools(Empty) returns (stream Pool) {}
 }
 
 message Empty {}

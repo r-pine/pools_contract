@@ -14,10 +14,10 @@ for dir in $PROTO_DIR/gen/proto/*/; do \
 done
 
 echo "successfully"
-echo "generate swagger documentation"
+# echo "generate swagger documentation"
 
-cd ../../..
-ls
-sh ./gen_swagger.sh
+# cd ../../..
+# ls
+# sh ./gen_swagger.sh
 
-echo "successfully"
+# echo "successfully"
