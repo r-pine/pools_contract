@@ -77,6 +77,9 @@
         },
         "reserve1": {
           "type": "string"
+        },
+        "dex": {
+          "type": "string"
         }
       }
     },
