@@ -23,6 +23,7 @@ message Pool{
     string reserve0 = 5;
     string reserve1 = 6;
     string dex = 7;
+    string updated_at = 8;
 }
 
 message Asset{

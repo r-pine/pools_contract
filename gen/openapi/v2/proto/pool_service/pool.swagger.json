@@ -80,6 +80,9 @@
         },
         "dex": {
           "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
         }
       }
     },
