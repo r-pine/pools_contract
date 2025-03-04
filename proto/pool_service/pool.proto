@@ -37,4 +37,7 @@ message Asset{
     string symbol = 4;
     string image = 5;
     uint32 decimals = 6;
+    string verification = 7;
+    bool is_scam = 8;
+    bool is_wallet = 9;
 }

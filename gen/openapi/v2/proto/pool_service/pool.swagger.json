@@ -38,6 +38,15 @@
         "decimals": {
           "type": "integer",
           "format": "int64"
+        },
+        "verification": {
+          "type": "string"
+        },
+        "isScam": {
+          "type": "boolean"
+        },
+        "isWallet": {
+          "type": "boolean"
         }
       }
     },
