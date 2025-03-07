@@ -30,7 +30,7 @@ const (
 type PoolServiceClient interface {
 	GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error)
 	StreamNewPools(ctx context.Context, in *StreamPoolsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[GetPoolsResponse], error)
-	GetAssets(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAssetsResponse, error)
+	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
 }
 
 type poolServiceClient struct {
@@ -70,7 +70,7 @@ func (c *poolServiceClient) StreamNewPools(ctx context.Context, in *StreamPoolsR
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type PoolService_StreamNewPoolsClient = grpc.ServerStreamingClient[GetPoolsResponse]
 
-func (c *poolServiceClient) GetAssets(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
+func (c *poolServiceClient) GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAssetsResponse)
 	err := c.cc.Invoke(ctx, PoolService_GetAssets_FullMethodName, in, out, cOpts...)
@@ -86,7 +86,7 @@ func (c *poolServiceClient) GetAssets(ctx context.Context, in *Empty, opts ...gr
 type PoolServiceServer interface {
 	GetPools(context.Context, *Empty) (*GetPoolsResponse, error)
 	StreamNewPools(*StreamPoolsRequest, grpc.ServerStreamingServer[GetPoolsResponse]) error
-	GetAssets(context.Context, *Empty) (*GetAssetsResponse, error)
+	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
 	mustEmbedUnimplementedPoolServiceServer()
 }
 
@@ -103,7 +103,7 @@ func (UnimplementedPoolServiceServer) GetPools(context.Context, *Empty) (*GetPoo
 func (UnimplementedPoolServiceServer) StreamNewPools(*StreamPoolsRequest, grpc.ServerStreamingServer[GetPoolsResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamNewPools not implemented")
 }
-func (UnimplementedPoolServiceServer) GetAssets(context.Context, *Empty) (*GetAssetsResponse, error) {
+func (UnimplementedPoolServiceServer) GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAssets not implemented")
 }
 func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
@@ -157,7 +157,7 @@ func _PoolService_StreamNewPools_Handler(srv interface{}, stream grpc.ServerStre
 type PoolService_StreamNewPoolsServer = grpc.ServerStreamingServer[GetPoolsResponse]
 
 func _PoolService_GetAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(GetAssetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,7 +169,7 @@ func _PoolService_GetAssets_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: PoolService_GetAssets_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolServiceServer).GetAssets(ctx, req.(*Empty))
+		return srv.(PoolServiceServer).GetAssets(ctx, req.(*GetAssetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
