@@ -50,6 +50,18 @@
         }
       }
     },
+    "pool_serviceGetAssetsResponse": {
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pool_serviceAsset"
+          }
+        }
+      }
+    },
     "pool_serviceGetPoolsResponse": {
       "type": "object",
       "properties": {

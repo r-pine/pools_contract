@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	PoolService_GetPools_FullMethodName       = "/pool_service.PoolService/GetPools"
 	PoolService_StreamNewPools_FullMethodName = "/pool_service.PoolService/StreamNewPools"
+	PoolService_GetAssets_FullMethodName      = "/pool_service.PoolService/GetAssets"
 )
 
 // PoolServiceClient is the client API for PoolService service.
@@ -29,6 +30,7 @@ const (
 type PoolServiceClient interface {
 	GetPools(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetPoolsResponse, error)
 	StreamNewPools(ctx context.Context, in *StreamPoolsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[GetPoolsResponse], error)
+	GetAssets(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAssetsResponse, error)
 }
 
 type poolServiceClient struct {
@@ -68,12 +70,23 @@ func (c *poolServiceClient) StreamNewPools(ctx context.Context, in *StreamPoolsR
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type PoolService_StreamNewPoolsClient = grpc.ServerStreamingClient[GetPoolsResponse]
 
+func (c *poolServiceClient) GetAssets(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetsResponse)
+	err := c.cc.Invoke(ctx, PoolService_GetAssets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PoolServiceServer is the server API for PoolService service.
 // All implementations must embed UnimplementedPoolServiceServer
 // for forward compatibility.
 type PoolServiceServer interface {
 	GetPools(context.Context, *Empty) (*GetPoolsResponse, error)
 	StreamNewPools(*StreamPoolsRequest, grpc.ServerStreamingServer[GetPoolsResponse]) error
+	GetAssets(context.Context, *Empty) (*GetAssetsResponse, error)
 	mustEmbedUnimplementedPoolServiceServer()
 }
 
@@ -89,6 +102,9 @@ func (UnimplementedPoolServiceServer) GetPools(context.Context, *Empty) (*GetPoo
 }
 func (UnimplementedPoolServiceServer) StreamNewPools(*StreamPoolsRequest, grpc.ServerStreamingServer[GetPoolsResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamNewPools not implemented")
+}
+func (UnimplementedPoolServiceServer) GetAssets(context.Context, *Empty) (*GetAssetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAssets not implemented")
 }
 func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
 func (UnimplementedPoolServiceServer) testEmbeddedByValue()                     {}
@@ -140,6 +156,24 @@ func _PoolService_StreamNewPools_Handler(srv interface{}, stream grpc.ServerStre
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type PoolService_StreamNewPoolsServer = grpc.ServerStreamingServer[GetPoolsResponse]
 
+func _PoolService_GetAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolServiceServer).GetAssets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PoolService_GetAssets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolServiceServer).GetAssets(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PoolService_ServiceDesc is the grpc.ServiceDesc for PoolService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -150,6 +184,10 @@ var PoolService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPools",
 			Handler:    _PoolService_GetPools_Handler,
+		},
+		{
+			MethodName: "GetAssets",
+			Handler:    _PoolService_GetAssets_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

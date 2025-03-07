@@ -7,6 +7,7 @@ option go_package = "github.com/r-pine/pools_contracts/gen/proto/pool_service;po
 service PoolService {
     rpc GetPools(Empty) returns (GetPoolsResponse) {}
     rpc StreamNewPools(StreamPoolsRequest) returns (stream GetPoolsResponse) {}
+    rpc GetAssets(Empty) returns (GetAssetsResponse) {}
 }
 
 message Empty {}
@@ -17,6 +18,10 @@ message StreamPoolsRequest {
 
 message GetPoolsResponse{
     repeated Pool pools = 1;
+}
+
+message GetAssetsResponse{
+    repeated Asset assets = 1;
 }
 
 message Pool{
